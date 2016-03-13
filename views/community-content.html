@@ -1,0 +1,15 @@
+{% include "./header.html" %}
+<script src="../../js/guide.js"></script>
+  <div class="row">
+    <div class="col s8">
+      <h1 id="guide-title"><a href="{{data.link}}">{{content.title}}</a></h1>
+    </div>
+    <div class="col s4">
+      <span id="author-tagline"><p>Author: </p> <img src="../../img/{{flair}}.png" title="Subreddit Moderator" id="flair-img"> <a href="/authors/{{data.author}}">{{data.author}}</a></span>
+    </div>
+    <div class="col s12" id="guide-body">
+      {{data.body}}
+    </div>
+  </div>
+</body>
+</html>

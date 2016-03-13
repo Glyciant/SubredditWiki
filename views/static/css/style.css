@@ -1,0 +1,23 @@
+#author-tagline * {
+  display: inline-block;
+  font-size: 18px;
+  position: relative;
+  top: 20px;
+}
+
+#author-tagline #flair-img {
+  top: 22px;
+  padding-left: 5px;
+}
+
+#guide-title {
+  font-size: 30px;
+}
+
+#submit-content {
+  width: 100%;
+}
+
+#body {
+  resize: both;
+}

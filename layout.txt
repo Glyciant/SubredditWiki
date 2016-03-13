@@ -1,0 +1,44 @@
+/authors/
+  /:id/
+
+/guides/
+  /official/
+  /community/
+    /:id/
+      /edit/
+      /history/
+
+/admin/
+  /content/
+    /community
+      /pending/
+      /approved/
+    /official/
+  /author/
+
+/submit/
+
+----------------------
+
+WikiDB
+  Authors
+    [INT] ID
+    [STRING] Reddit Name
+    [STRING] Twitch Name
+    [STRING] Twitter Name (Optional)
+    [STRING] Flair Type (Auto/Optional)
+    [STRING] Image
+    [ARRAY] Content IDs
+
+  CommunityContent
+    [INT] ID
+    [INT] Version
+    [STRING] Author
+    [STRING] Title
+    [STRING] Reddit Link
+    [STRING] Body
+    [BOOLEAN] Approved
+
+  OfficialContent
+    [INT] ID
+    [Object] Title, Link
