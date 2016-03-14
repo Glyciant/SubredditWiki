@@ -10,11 +10,9 @@ var	config = require('./config'),
 
 var content = {
   select: (id) => {
-    console.log(id)
 		return new Promise((resolve, reject) => {
-      var id = id
-      console.log(id)
-      ContentModel.filter({id: id}).run().then((db) => {
+      var key = parseInt(id)
+      ContentModel.filter(r.row("id").eq(key)).run().then((db) => {
         resolve(db);
       }).catch(function(err) {
         console.log(err)

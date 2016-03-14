@@ -20,7 +20,7 @@ config.twitch.cid = " ";
 config.twitch.secret = " ";
 config.twitch.authurl = 'https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id='+config.twitch.cid+'&redirect_uri='+config.twitch.redirect+'&scope=user_read';
 
-config.twitch.mods = ["distortednet","mellownebula","boomliam","conceptional","laagone","heep123","decicus","zcotticus","zcotticus"];
+config.twitch.mods = ["distortednet","mellownebula","boomliam","conceptional","laagone","heep123","decicus","sargasm_gaming","zcotticus"];
 config.twitch.helpers = ["moorlly", "saaitv"];
 
 
