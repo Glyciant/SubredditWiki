@@ -10,8 +10,11 @@ var	config = require('./config'),
 
 var content = {
   select: (id) => {
+    console.log(id)
 		return new Promise((resolve, reject) => {
-      ContentModel.filter(r.row("id").eq(id)).run().then((db) => {
+      var id = id
+      console.log(id)
+      ContentModel.filter({id: id}).run().then((db) => {
         resolve(db);
       }).catch(function(err) {
         console.log(err)
@@ -29,7 +32,7 @@ var content = {
 					resolve("content_created");
 				});
 			});
-		});
+    });
 	}
 }
 

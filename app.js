@@ -54,9 +54,8 @@ app.get('/submit', function(req, res) {
 app.get('/content/community/:id', function(req, res) {
   var id = req.params.id;
 	db.content.select(id).then(function(result) {
-		res.status(200).send('Content found from database!')
+		res.render('community-content', {content: result[0] })
 	})
-	res.render('community-content', {content: db.content.select(id) })
 });
 
 // Posts
