@@ -21,18 +21,25 @@ schema.content = {
   approved: type.boolean()
 };
 
+schema.subreddit = {
+  id: type.number(),
+  version: type.number(),
+  title: type.string(),
+  body: type.string(),
+};
+
+schema.official = {
+  id: type.number(),
+  article: type.object()
+}
+
 schema.author = {
-  redditname: type.string(),
+  id: type.string(),
   twitchname: type.string(),
   twittername: type.string(),
   type: type.string(),
   image: type.string(),
   content: type.array()
-}
-
-schema.official = {
-  id: type.number(),
-  article: type.object()
 }
 
 module.exports = schema;

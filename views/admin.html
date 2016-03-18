@@ -1,0 +1,25 @@
+{% include "./header.html" %}
+    <table class="white-text">
+      <thead>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Link</th>
+        <th>Action</th>
+      </thead>
+      <tbody>
+        {%for pending in pending%}
+          <tr id="row-{{pending.id}}">
+            <td>{{pending.author}}</td>
+            <td>{{pending.title}}</td>
+            <td><a class="btn grey lighten-4 black-text" href="{{pending.link}}">Content</a></td>
+            <td>
+              <a class="btn green lighten-2" href="#" data-id="{{pending.id}}" id="approve-button">Approve</a>
+              <a class="btn red lighten-2" href="#" data-id="{{pending.id}}" id="reject-button">Reject</a>
+            </td>
+          </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+    <script src="../../js/admin.js"></script>
+  </body>
+</html>

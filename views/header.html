@@ -4,22 +4,30 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
 		<link rel="stylesheet" href="/css/style.css">
-		<link rel="shortcut icon" href="img/icon.png">
+		<link rel="shortcut icon" href="/img/icon.png">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/6.0.0/markdown-it.js"></script>
 		<script src="/js/header.js"></script>
 	</head>
 	<body class="grey darken-3">
 		<div class="nav">
+			<ul id="dropdown-content" class="dropdown-content">
+	  		<li><a href="/content/community">Community Content</a></li>
+	  		<li><a href="/content/twitch">Official Twitch Content</a></li>
+	  		<li><a href="/content/subreddit">Official Subreddit Content</a></li>
+			</ul>
 				<nav class="grey darken-4">
 					<div class="nav-wrapper">
 						<ul class="center">
 							<li><a href="/">Home</a></li>
-              <li><a href="/content/community">Community Content</a></li>
-							<li><a href="/content/twitch">Official Content</a></li>
-              <li><a href="/authors">Authors</a></li>
+							<li><a href="/authors">Authors</a></li>
+              <li><a class="dropdown-button" href="#!" data-activates="dropdown-content">View Content</a></li>
 							<li><a href="/submit">Submit Content</a></li>
             </ul>
+						<ul class="right">
+							<li><a href="https://github.com/Heep123/SubredditWiki">GitHub</a></li>
+							<li><a href="/login">Login</a></li>
+						</ul>
 					</div>
 				</nav>
 		</div>

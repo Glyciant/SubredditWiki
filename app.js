@@ -6,7 +6,6 @@ var express = require('express'),
 	session = require('express-session'),
 	cookieParser = require('cookie-parser'),
 	swig = require('swig'),
-	thinky = require('thinky'),
 	db = require('./db'),
 	config = require('./config'),
 	schema = require('./schema'),
@@ -51,6 +50,12 @@ app.get('/submit', function(req, res) {
   res.render('submit');
 });
 
+app.get('/admin', function(req, res) {
+	db.content.getpending().then(function(result) {
+		res.render('admin', {pending: result})
+	})
+});
+
 app.get('/content/community/:id', function(req, res) {
   var id = req.params.id;
 	db.content.select(id).then(function(result) {
@@ -67,6 +72,38 @@ app.post('/content/submit', function(req,res) {
 	}).catch(function(error) {
   	console.log("err : " + error);
 	})
+	db.author.isAuthor(req.body.author).then(function(result) {
+		if (result == true) {
+			db.author.select(req.body.author).then(function(trueresult) {
+				var AuthorData = trueresult[0]
+				var content = AuthorData.content
+				var id = parseInt(req.body.id)
+				content.push(id)
+				db.author.update({id: AuthorData.id, twitchname: AuthorData.twitchname, flair: AuthorData.flair, image: AuthorData.image, content: content})
+			})
+		}
+		else if (result == false) {
+			db.author.create({id: req.body.author, twitchname: null, twittername: null, flair: null, image: null,  content: JSON.parse("[" + req.body.id + "]")}).then(function(createresult) {
+			}).catch(function(error) {
+		  	console.log("err : " + error);
+			})
+		}
+	}).catch(function(error) {
+		console.log("err : " + error);
+	})
+});
+
+app.post('/admin/approve', function(req, res) {
+	db.content.select(req.body.id).then(function(result) {
+		result[0].approved = true
+		db.content.approve(result[0]).run()
+	})
+	res.status(200).send("Content Approved")
+});
+
+app.post('/admin/reject', function(req, res) {
+	db.content.reject(req.body.id)
+	res.status(200).send("Content Rejected")
 });
 
 // Get 404

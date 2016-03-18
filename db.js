@@ -7,6 +7,7 @@ var	config = require('./config'),
 	type = thinky.type,
 	Query = thinky.Query,
   ContentModel = thinky.createModel('content', schema.content, schema.primarykey.content);
+  AuthorModel = thinky.createModel('author', schema.author, schema.primarykey.author);
 
 var content = {
   select: (id) => {
@@ -31,9 +32,70 @@ var content = {
 				});
 			});
     });
-	}
+	},
+  getpending: () => {
+    return new Promise((resolve, reject) => {
+      ContentModel.filter({approved: false}).run().then((db) => {
+        resolve(db)
+      }).catch(function(err) {
+        console.log(err)
+      });
+    })
+  },
+  approve: (object) => {
+    return new Promise((resolve, reject) => {
+      ContentModel.filter({id: object.id}).update(object).run().then((db) => {
+        resolve(db)
+      })
+    })
+  },
+  reject: (id) => {
+    return new Promise((resolve, reject) => {
+      var key = parseInt(id)
+      ContentModel.filter({id: key}).delete().run().then((db) => {
+        resolve(db)
+      })
+    })
+  }
+}
+
+var author = {
+  isAuthor: (author) => {
+    return new Promise((resolve, reject) => {
+      AuthorModel.get(author).run().then((db) => {
+        resolve(true)
+      }).catch(thinky.Errors.DocumentNotFound, (err) => {
+        resolve(false)
+      })
+    })
+  },
+  create: (author, id) => {
+    return new Promise((resolve, reject) => {
+      var id = parseInt(id)
+			var AuthorData = new AuthorModel(author);
+			AuthorData.save((err) => {
+				if(err) { reject(err) };
+				resolve("content_created");
+			});
+    })
+  },
+  update: (object) => {
+    return new Promise((resolve, reject) => {
+      AuthorModel.filter({'id': object.id}).update(object).run().then((db) => {
+        resolve(db);
+      });
+    });
+  },
+  select: (id) => {
+    return new Promise((resolve, reject) => {
+      AuthorModel.filter({'id': id}).run().then((db) => {
+        resolve(db)
+      })
+    })
+  }
 }
 
 module.exports = {
-  content: content
+  content: content,
+  author: author
 }

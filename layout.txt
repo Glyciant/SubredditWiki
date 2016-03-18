@@ -22,7 +22,6 @@
 
 WikiDB
   Authors
-    [INT] ID
     [STRING] Reddit Name
     [STRING] Twitch Name
     [STRING] Twitter Name (Optional)
