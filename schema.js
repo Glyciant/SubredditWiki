@@ -18,7 +18,9 @@ schema.content = {
   title: type.string(),
   link: type.string(),
   body: type.string(),
-  approved: type.boolean()
+  approved: type.boolean(),
+  latest: type.boolean(),
+  votes: type.number()
 };
 
 schema.subreddit = {
@@ -26,6 +28,7 @@ schema.subreddit = {
   version: type.number(),
   title: type.string(),
   body: type.string(),
+  latest: type.boolean()
 };
 
 schema.official = {

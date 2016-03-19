@@ -8,7 +8,9 @@ var express = require('express'),
 	swig = require('swig'),
 	db = require('./db'),
 	config = require('./config'),
+	helpers = require('./helpers'),
 	schema = require('./schema'),
+	restler = require('restler'),
 	thinky = require('thinky'),
 	r = thinky.r,
 	type = thinky.type,
@@ -27,11 +29,12 @@ app.set('view cache', false);
 swig.setDefaults({cache: false});
 
 app.locals = {
-
+	authurl: config.auth.authurl
 };
 
 // Main Gets
 app.get('*', function(req, res, next) {
+	app.locals.loggedin = req.session.name;
 	next();
 });
 app.get('/', function(req, res) {
@@ -51,9 +54,14 @@ app.get('/submit', function(req, res) {
 });
 
 app.get('/admin', function(req, res) {
-	db.content.getpending().then(function(result) {
-		res.render('admin', {pending: result})
-	})
+	if (helpers.isMod(req.session.name)) {
+		db.content.getpending().then(function(result) {
+			res.render('admin', {pending: result})
+		})
+	}
+	else {
+		res.render('error', { title: "Sorry! You don't have permission to do that.", subtext: "Only subreddit moderators and community helpers are permitted to view admin sections of the site."})
+	}
 });
 
 app.get('/content/community/:id', function(req, res) {
@@ -63,10 +71,40 @@ app.get('/content/community/:id', function(req, res) {
 	})
 });
 
+app.get('/auth/', function(req, res) {
+    restler.post('https://www.reddit.com/api/v1/access_token', {
+        username: config.auth.cid,
+        password: config.auth.secret,
+        data: {
+            code: req.query.code,
+            grant_type: 'authorization_code',
+            redirect_uri: config.auth.redirect
+        }
+    }).on('complete', function(data) {
+				restler.get('https://oauth.reddit.com/api/v1/me', {
+		 			'headers': {
+				 		'User-Agent': 'SubredditWiki',
+				 		'Authorization': 'bearer ' + data.access_token
+		 			}
+				}).on('complete', function(finaldata) {
+					req.session.name = finaldata.name
+					req.session.auth = data.access_token
+					res.redirect('/')
+				});
+    });
+});
+
+app.get('/logout/', function(req, res) {
+	req.session.destroy(function() {
+		res.redirect('/');
+	});
+});
+
 // Posts
 
 app.post('/content/submit', function(req,res) {
 	req.body.approved = (req.body.approved == "true")
+	req.body.latest = (req.body.latest == "true")
 	db.content.create(req.body).then(function(result) {
   	res.status(200).send('Content submitted and awaiting approval!')
 	}).catch(function(error) {
@@ -91,7 +129,15 @@ app.post('/content/submit', function(req,res) {
 	}).catch(function(error) {
 		console.log("err : " + error);
 	})
+	res.redirect("/content/community/" + req.body.id)
 });
+
+app.post('/content/upvote', function(req, res) {
+	db.content.select(req.body.id).then(function(result) {
+		result[0].votes = result[0].votes + 1
+		db.content.upvote(result[0]).run()
+	})
+})
 
 app.post('/admin/approve', function(req, res) {
 	db.content.select(req.body.id).then(function(result) {
@@ -108,7 +154,7 @@ app.post('/admin/reject', function(req, res) {
 
 // Get 404
 app.get('*', function(req, res, next) {
-	res.render('404');
+	res.render('error', { title: "404", subtext: "That page does not exist."});
 });
 
 var server = app.listen(7000, function() {

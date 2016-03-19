@@ -1,8 +1,12 @@
-#author-tagline * {
+#author-tagline *, #votes-tagline {
   display: inline-block;
   font-size: 18px;
   position: relative;
   top: 20px;
+}
+
+#votes-tagline {
+  top: 38px
 }
 
 #author-tagline #flair-img {

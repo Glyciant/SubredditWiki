@@ -1,7 +1,7 @@
 {% include "./header.html" %}
 <script src="../../js/submit.js"></script>
   <div class="row">
-    <form class="col s12">
+    <form class="col s12 white-text">
       <div class="row">
         <div class="input-field col s6">
           <input id="title" type="text" class="validate">
@@ -20,8 +20,16 @@
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="author" type="text" class="validate">
-          <label for="author">Author</label>
+          <input id="author" type="text" class="validate" disabled value="{{loggedin}}">
+          <label for="author">Reddit Username</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="twitch" type="text" class="validate">
+          <label for="twitch">Twitch Username</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="twitter" type="text" class="validate">
+          <label for="twitter">Twitter Username</label>
         </div>
       </div>
       <div class="row">

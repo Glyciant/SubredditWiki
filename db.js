@@ -1,7 +1,5 @@
 var	config = require('./config'),
   schema = require('./schema'),
-  needle = require('needle'),
-  async = require('async'),
   thinky = require('thinky')({host:config.app.rethink.host, port:config.app.rethink.port, db: config.app.rethink.db}),
 	r = thinky.r,
 	type = thinky.type,
@@ -13,7 +11,7 @@ var content = {
   select: (id) => {
 		return new Promise((resolve, reject) => {
       var key = parseInt(id)
-      ContentModel.filter(r.row("id").eq(key)).run().then((db) => {
+      ContentModel.filter({id: key}).run().then((db) => {
         resolve(db);
       }).catch(function(err) {
         console.log(err)
@@ -44,7 +42,7 @@ var content = {
   },
   approve: (object) => {
     return new Promise((resolve, reject) => {
-      ContentModel.filter({id: object.id}).update(object).run().then((db) => {
+      ContentModel.filter({id: object.id, version: object.version}).update(object).run().then((db) => {
         resolve(db)
       })
     })
@@ -53,6 +51,14 @@ var content = {
     return new Promise((resolve, reject) => {
       var key = parseInt(id)
       ContentModel.filter({id: key}).delete().run().then((db) => {
+        resolve(db)
+      })
+    })
+  },
+  upvote: (object) => {
+    return new Promise((resolve, reject) => {
+      var key = parseInt(object.id)
+      ContentModel.filter({id: key, latest: true}).update(object).run().then((db) => {
         resolve(db)
       })
     })
@@ -81,14 +87,14 @@ var author = {
   },
   update: (object) => {
     return new Promise((resolve, reject) => {
-      AuthorModel.filter({'id': object.id}).update(object).run().then((db) => {
+      AuthorModel.filter({id: object.id}).update(object).run().then((db) => {
         resolve(db);
       });
     });
   },
   select: (id) => {
     return new Promise((resolve, reject) => {
-      AuthorModel.filter({'id': id}).run().then((db) => {
+      AuthorModel.filter({id: id}).run().then((db) => {
         resolve(db)
       })
     })

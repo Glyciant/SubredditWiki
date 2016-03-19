@@ -14,7 +14,9 @@ $(document).ready(function(){
       approved: approved,
       version: 1,
       author: author,
-      id: id
+      id: id,
+      latest: true,
+      votes: 1
     });
   });
 });

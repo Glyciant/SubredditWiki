@@ -26,7 +26,11 @@
             </ul>
 						<ul class="right">
 							<li><a href="https://github.com/Heep123/SubredditWiki">GitHub</a></li>
-							<li><a href="/login">Login</a></li>
+							{%if !loggedin%}
+							<li><a href="{{authurl}}">Login</a></li>
+							{%else%}
+							<li><a href="/logout">{{loggedin}}</a></li>
+							{%endif%}
 						</ul>
 					</div>
 				</nav>

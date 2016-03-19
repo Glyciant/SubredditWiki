@@ -37,6 +37,8 @@ WikiDB
     [STRING] Reddit Link
     [STRING] Body
     [BOOLEAN] Approved
+    [BOOLEAN] Latest
+    [BOOLEAN] Votes
 
   OfficialContent
     [INT] ID

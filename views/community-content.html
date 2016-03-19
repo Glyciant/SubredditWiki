@@ -1,14 +1,24 @@
 {% include "./header.html" %}
-<script src="../../js/guide.js"></script>
-  <div class="row">
+<script src="../../js/content.js"></script>
+  <div class="row white-text">
     <div class="col s8">
       <h1 id="guide-title"><a href="{{data.link}}">{{content.title}}</a></h1>
     </div>
-    <div class="col s4">
+    <div class="col s2">
       <span id="author-tagline"><p>Author: </p> {%if author\.flair %}<img src="../../img/{{flair}}.png" title="Subreddit Moderator" id="flair-img">{%endif%} <a href="/authors/{{data.author}}">{{content.author}}</a></span>
+    </div>
+    <div class="col s2">
+      <span id="votes-tagline">{{content.votes}} Points</span>
     </div>
     <div class="col s12" id="guide-body">
       {{content.body}}
+    </div>
+    <div class="col s12">
+      <center>
+        <a class="btn grey lighten-4 black-text" href="update">Update</a>
+        <a class="btn grey lighten-4 black-text" href="revisions">Revisions</a>
+        <a class="btn grey lighten-4 black-text" href="#" id="upvote" data-id="{{content.id}}">Upvote</a>
+      </center>
     </div>
   </div>
 </body>
