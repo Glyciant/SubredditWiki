@@ -1,0 +1,29 @@
+var config = {};
+
+config.app = {};
+config.auth = {};
+config.app.rethink = {};
+
+
+config.app.port = 8000;
+config.app.baseurl = "http://localhost:"+config.app.port;
+config.app.cookie = " ";
+
+config.app.rethink.host = "127.0.0.1";
+config.app.rethink.port = "28015";
+config.app.rethink.db = "WikiDB";
+
+config.auth.state = 'authorization_code';
+config.auth.redirect = config.app.baseurl + "/auth/";
+
+config.auth.cid = "";
+config.auth.secret = "";
+config.auth.authurl = 'https://www.reddit.com/api/v1/authorize?client_id=' + config.auth.cid + '&response_type=code&state=' + config.auth.state + '&redirect_uri=' + config.auth.redirect + '&duration=permanent&scope=identity';
+
+config.app.mods = ["distortednet","MellowNebula","BoomLiam","conceptional","laagone","Heep123","Decicus","sargasm_gaming","Zcotticus"];
+
+module.exports = config;
+
+
+
+module.exports = config;
